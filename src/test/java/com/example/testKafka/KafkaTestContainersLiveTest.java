@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import org.testcontainers.utility.DockerImageName;
 @Import(KafkaTestContainersLiveTest.KafkaTestContainersConfiguration.class)
 @SpringBootTest(classes = TestKafkaApplication.class)
 @DirtiesContext
+@Ignore
 public class KafkaTestContainersLiveTest {
 
   @Configuration
