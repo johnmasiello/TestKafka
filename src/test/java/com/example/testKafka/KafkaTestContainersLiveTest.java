@@ -22,6 +22,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.test.annotation.DirtiesContext;
@@ -42,26 +44,30 @@ public class KafkaTestContainersLiveTest {
     private static final Logger PRODUCER_CONFIG_LOGGER = LoggerFactory.getLogger("ProducerConfig");
 
     @Bean
-    public Map<String, Object> consumerConfigs(
+    public ConsumerFactory<Object, Object> consumerConfigs(
         @Value("${spring.kafka.consumer.group-id}") String groupId) {
-      Map<String, Object> props = new HashMap<>();
+      Map<String, Object> configProps = new HashMap<>();
       String testContainersBootStrapServers = kafka.getBootstrapServers();
       CONSUMER_CONFIG_LOGGER
           .debug("bootstrap servers found as: {}", testContainersBootStrapServers);
-      props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, testContainersBootStrapServers);
-      props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-      props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+      configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, testContainersBootStrapServers);
+      configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+      configProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+      configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+      configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
       // more standard configuration
-      return props;
+      return new DefaultKafkaConsumerFactory<>(configProps);
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<Object, Object> producerFactory() {
       Map<String, Object> configProps = new HashMap<>();
       String testContainersBootStrapServers = kafka.getBootstrapServers();
       PRODUCER_CONFIG_LOGGER
           .debug("bootstrap servers found as: {}", testContainersBootStrapServers);
       configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, testContainersBootStrapServers);
+      configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+      configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
       // more standard configuration
       return new DefaultKafkaProducerFactory<>(configProps);
     }
