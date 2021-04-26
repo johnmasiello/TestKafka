@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
     plugin = {"pretty",
         "json:target/cucumber-report-test-container.json",
         "html:target/cucumber-test-container.html"
+
     })
 public class CucumberIntegrationTest {
 

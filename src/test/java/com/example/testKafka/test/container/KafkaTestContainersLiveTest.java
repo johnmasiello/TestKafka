@@ -16,7 +16,6 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,9 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@RunWith(SpringRunner.class)
 @CucumberContextConfiguration
 @Import(KafkaTestContainersLiveTest.KafkaTestContainersConfiguration.class)
 @SpringBootTest(classes = TestKafkaApplication.class)
@@ -79,7 +76,7 @@ public class KafkaTestContainersLiveTest {
   }
 
   @ClassRule
-  public static KafkaContainer kafka;
+  static KafkaContainer kafka;
 
   static {
     kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:5.4.3"));
