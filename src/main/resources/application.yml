@@ -2,10 +2,11 @@ spring:
   kafka:
     consumer:
       auto-offset-reset: earliest
-      group-id: testKafka
+      group-id: ${test.group-id}
 
 test:
   topic: embedded-test-topic
+  group-id: testKafka
 
 logging:
   level:
