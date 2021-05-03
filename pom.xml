@@ -12,4 +12,9 @@
   <properties>
     <java.version>11</java.version>
   </properties>
+
+  <modules>
+    <module>integration-tests</module>
+    <module>unit-tests</module>
+  </modules>
 </project>

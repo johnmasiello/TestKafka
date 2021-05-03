@@ -10,7 +10,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example</groupId>
-  <artifactId>unitTests</artifactId>
+  <artifactId>unit-tests</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Unit Tests</name>
   <description>Unit tests using spring boot and cucumber</description>
